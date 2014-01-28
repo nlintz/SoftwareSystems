@@ -80,8 +80,14 @@ int main()
 	char card_name[3];
 	int count = 0;
 	int card_value;
+
 	while (card_name[0] != 'X') {
 		cardName(card_name);
+
+		if (card_name[0] == 'X'){
+			break;
+		}
+		
 		card_value = cardValue(card_name);
 		count = cardCount(count, card_value);
 		printf("Current count: %i\n", count);
