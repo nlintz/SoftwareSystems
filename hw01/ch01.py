@@ -65,6 +65,19 @@ class Controller:
 
         return self.kp*e + self.ki*self.i
 
+class PIDController(Controller):
+    def __init__(self, kp, ki, kd):
+        Controller.__init__(self, kp, ki)
+        self.kd = kd
+        self.d = 0
+
+    def work(self, e):
+        self.i += e
+        delta_error = (e - self.d)
+        self.d = e
+
+        return self.kp*e + self.ki*self.i + self.kd * self.d
+
 # ============================================================
 
 def closed_loop( c, p, tm=5000 ):
@@ -81,10 +94,15 @@ def closed_loop( c, p, tm=5000 ):
         if t < 300: return 50
         return 10
     
+    def setpoint_gradual(t):
+        target_times = numpy.linspace(0, 50, tm)
+        return int(target_times[t])
+
+
     y = 0
     res = []
     for t in range( tm ):
-        r = setpoint(t)
+        r = setpoint_gradual(t) #Has lower rms than the original setpoint implementation
         e = r - y
         u = c.work(e)
         y = p.work(u)
@@ -96,23 +114,31 @@ def closed_loop( c, p, tm=5000 ):
 
 # ============================================================
 
-c = Controller( 1.25, 0.01 )
-p = Buffer( 50, 10 )
+# Setting ki = 0 reduces overshooting but increases RMS
+if __name__ == "__main__":
+    # c = Controller( 1.25, 0.01 )
+    # c = Controller( 1.25, 0.00 )
+    c = PIDController( 1.25, 0.00, 0.01 )
+    # c_ki_zero has higher rms error on average
 
-# run the simulation
-ts, rs, es, us, ys = closed_loop( c, p, 1000 )
+    p = Buffer( 50, 10 )
 
-print 'RMS error', numpy.sqrt(numpy.mean(numpy.array(es)**2))
+    # run the simulation
+    ts, rs, es, us, ys = closed_loop( c, p, 1000 )
+    # results_ki_zero = closed_loop( c_ki_zero, p, 5000 )
 
-# generate the smoothed curve using a rolling mean
-# (I think the curves in the book use loess)
-ys_smooth = pandas.rolling_mean(numpy.array(ys), 20)
+    print 'RMS error', numpy.sqrt(numpy.mean(numpy.array(es)**2))
+    # print 'RMS error Ki is Zero', numpy.sqrt(numpy.mean(numpy.array(results_ki_zero[2])**2))
 
-# make the plot
-pyplot.plot(ts, rs, color='green', label='target')
-pyplot.plot(ts, ys, color='red', label='queue length')
-pyplot.plot(ts, ys_smooth, color='blue', label='trend')
-pyplot.show()
+    # generate the smoothed curve using a rolling mean
+    # (I think the curves in the book use loess)
+    ys_smooth = pandas.rolling_mean(numpy.array(ys), 20)
+
+    # make the plot
+    pyplot.plot(ts, rs, color='green', label='target')
+    pyplot.plot(ts, ys, color='red', label='queue length')
+    pyplot.plot(ts, ys_smooth, color='blue', label='trend')
+    pyplot.show()
 
 
 
