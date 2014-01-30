@@ -74,6 +74,7 @@ class PIDController(Controller):
     def work(self, e):
         self.i += e
         delta_error = (e - self.d)
+        print delta_error
         self.d = e
 
         return self.kp*e + self.ki*self.i + self.kd * self.d
@@ -117,9 +118,9 @@ def closed_loop( c, p, tm=5000 ):
 # Setting ki = 0 reduces overshooting but increases RMS
 if __name__ == "__main__":
     # c = Controller( 1.25, 0.01 )
-    # c = Controller( 1.25, 0.00 )
-    c = PIDController( 1.25, 0.00, 0.01 )
-    # c_ki_zero has higher rms error on average
+    c = Controller( 1.25, 0.00 )
+    # c = PIDController( 1.25, 0.00, 0.01 )
+    # c where ki is zero has higher rms error on average
 
     p = Buffer( 50, 10 )
 
