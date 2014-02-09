@@ -1,6 +1,6 @@
 /* Example code for Software Systems at Olin College.
 
-Copyright 2014 Allen Downey
+Copyright 2014 Nathan Lintz
 License: Creative Commons Attribution-ShareAlike 3.0
 
 */
@@ -34,14 +34,19 @@ void find_track(char search_for[])
     }
 }
 
-//
 // Helpers for find_track_regex
-// Compiles the regular expression and checks for errors
+// 
+
+// Compiles the regular expression pattern. Regexes need to be compiled and 
+// passed to a regex_t struct to perform comparisons
+//
+// Returns 0 if no errors occur, otherwise exits
 int compile_regex(regex_t *compiled_regex, char *pattern)
 {
     int status = regcomp(compiled_regex, pattern, 0);
     if (status)
     {
+        // Error handling and printing
         char error_message[LENGTH_ERROR_MESSAGE];
         regerror(status, compiled_regex, error_message, LENGTH_ERROR_MESSAGE);
         printf (
@@ -52,21 +57,20 @@ int compile_regex(regex_t *compiled_regex, char *pattern)
     return 0;
 }
 
+// Matches a track to a pattern.
+// 
+// Returns true if the pattern matches the song and false if it doesnt
 int match_regex(regex_t *regex, char *text)
 {
     int match_status = regexec(regex, text, 0, NULL, 0);
-    if (match_status)
-    {
-        return 0;
-    }
-    return 1;
+    return (match_status == 0) ? 1 : 0; // Ternary notation to flip the result of regexec
 }
+
 // Finds all tracks that match the given pattern.
 //
 // Prints track number and title.
 void find_track_regex(char pattern[])
 {
-    // TODO: fill this in
     regex_t regex;
     int i;
     
@@ -79,6 +83,8 @@ void find_track_regex(char pattern[])
             printf("Track %i: '%s'\n", i, tracks[i]);
         }
     }
+
+    regfree(&regex);
 }
 
 // Truncates the string at the first newline, if there is one.
