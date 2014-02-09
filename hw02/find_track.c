@@ -47,7 +47,7 @@ int compile_regex(regex_t *compiled_regex, char *pattern)
         printf (
             "Regex is wrong, enter a correctly formatted" \
                 " regular expression:  \n %s\n", error_message);
-        return 1;
+        exit(1);
     }
     return 0;
 }
@@ -70,10 +70,7 @@ void find_track_regex(char pattern[])
     regex_t regex;
     int i;
     
-    int regex_status = compile_regex(&regex, pattern);
-    if (regex_status) {
-        exit(1);
-    };
+    compile_regex(&regex, pattern);
 
     for (i=0; i<NUM_TRACKS; i++) {
         int match = match_regex(&regex, tracks[i]);
