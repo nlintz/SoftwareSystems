@@ -1,0 +1,39 @@
+How does my code work?  
+This code works by creating a socket, connecting to a file server, and measuring how long it takes to download
+each chunk of the file via tcp. When the socket is created, a timer is run which measures the time it takes for new data to be read. When the timer is read, a counter which measures the number of bytes downloaded is updated. Finally, the start time for each of the new chunks is written to a file along with the corresponding number of bytes received. 
+
+Why are some of the local variables in sock_read declared static (see page 543 of HFC)?
+Static variables are global in the sense that they aren't destroyed after the function returns.
+However, they are scoped to the function so that other functions can't access it. Local variables are
+declared as static in two cases found on the gist. The File variable is static so that the program is always reading from the same file within this function. The total varaible is static so that the function can be called multiple times and keep a running count of the receieved data.
+
+How many of these network path characteristics can you infer by reading the chart?
+
+cw
+congestion window (packets)
+ss
+slow start threshold (packets)
+rtt
+round trip time (s)
+tt
+transfer time per packet (s)
+bw
+bottleneck bandwidth (packets/s)
+bdp
+bandwidth delay product (packets)
+sb
+size of receive buffer (packets)
+rb
+size of send buffer (packets)
+lb
+limiting buffer = min(sb,rb)
+bb
+bottleneck buffer (packets)
+k
+packets between drops
+p
+drop rate (1/k)
+th
+effective throughput (packets/s)
+mss
+maximum segment size (bytes)
