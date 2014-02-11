@@ -38,6 +38,7 @@ char *interleave(char *s1, char *s2)
 int main ()
 {
     char *s = interleave("clips", "aloe");
+    // char *s = interleave("a", "lot");
     printf("%s\n", s);
     return 0;
 }
