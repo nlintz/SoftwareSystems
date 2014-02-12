@@ -63,7 +63,7 @@ int compile_regex(regex_t *compiled_regex, char *pattern)
 int match_regex(regex_t *regex, char *text)
 {
     int match_status = regexec(regex, text, 0, NULL, 0);
-    if (!match_status) 
+    if (!match_status) // 0 means that the match was a success ... lol c
     {
         return 1;
     }
@@ -72,6 +72,7 @@ int match_regex(regex_t *regex, char *text)
         return 0;
     }
     else {
+        // Error handling and printing
         char error_message[LENGTH_ERROR_MESSAGE];
         regerror(match_status, regex, error_message, LENGTH_ERROR_MESSAGE);
         printf ("\n %s\n", error_message);
