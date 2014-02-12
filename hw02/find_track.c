@@ -63,7 +63,20 @@ int compile_regex(regex_t *compiled_regex, char *pattern)
 int match_regex(regex_t *regex, char *text)
 {
     int match_status = regexec(regex, text, 0, NULL, 0);
-    return (match_status == 0) ? 1 : 0; // Ternary notation to flip the result of regexec
+    if (!match_status) 
+    {
+        return 1;
+    }
+    if (match_status == REG_NOMATCH)
+    {
+        return 0;
+    }
+    else {
+        char error_message[LENGTH_ERROR_MESSAGE];
+        regerror(match_status, regex, error_message, LENGTH_ERROR_MESSAGE);
+        printf ("\n %s\n", error_message);
+        exit(1);
+    }
 }
 
 // Finds all tracks that match the given pattern.
