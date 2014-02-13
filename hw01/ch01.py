@@ -74,8 +74,7 @@ class PIDController(Controller):
     def work(self, e):
         self.i += e
         delta_error = (e - self.d)
-        print delta_error
-        self.d = e
+        self.d = delta_error
 
         return self.kp*e + self.ki*self.i + self.kd * self.d
 

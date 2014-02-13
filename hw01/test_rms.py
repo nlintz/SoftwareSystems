@@ -33,7 +33,8 @@ def test_PI_vs_PID():
 
 def test_maximize_RMS():
 	pid_controller = PIDController(1.25, 0.01, 100) # PI Controller is better
-	print run_trial(10, pid_controller)
+	pi_controller = PIDController(1.25, 0.01, 0) # PI Controller is better
+	print run_trial(10, pid_controller, pi_controller)
 
 if __name__ == "__main__":
-	test_maximize_RMS()
+	test_PI_vs_PID()
