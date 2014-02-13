@@ -76,7 +76,7 @@ class PIDController(Controller):
         delta_error = (e - self.d)
         self.d = e
 
-        return self.kp*e + self.ki*self.i + self.kd * self.d
+        return self.kp*e + self.ki*self.i + self.kd * delta_error
 
 # ============================================================
 
