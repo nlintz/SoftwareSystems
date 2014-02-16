@@ -16,3 +16,9 @@
 *.exe
 *.out
 *.app
+
+# Python Shit
+*.pyc
+
+# Specific Directories
+lecture07/
