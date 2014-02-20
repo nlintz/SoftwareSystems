@@ -75,11 +75,11 @@ void find_track_regex(char *pattern)
 int main (int argc, char *argv[])
 {
     // char *target = 'F';
-    char *target = 'F';
+    char *target = "F";
     char *pattern = "Fr.*Fr.*";
 
     // find_track(target);
-    find_track(&target);
+    find_track(target);
     find_track_regex(pattern);
 
     return 0;
