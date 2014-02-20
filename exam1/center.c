@@ -18,8 +18,33 @@ License: Creative Commons Attribution-ShareAlike 3.0
 
 char *center(char *s, int n, char fillchar)
 {
-    // FILL THIS IN
-    //    return NULL;
+    char *buffer = malloc(sizeof(char)*(n+1));
+    buffer[0] = '\0';
+    int startIndex = (n - strlen(s))/2;
+    int j = 0;
+
+    // Generate Head
+    for (int i=0; i<startIndex; i++)
+    {
+        buffer[j] = fillchar;
+        j++;
+    }
+
+    // Generate Middle
+    for (int i=0; i<strlen(s); i++)
+    {
+        buffer[j] = s[i];
+        j++;
+    }
+
+    // Generate Tail
+    for (int i=j; i<n; i++)
+    {
+        buffer[j] = fillchar;
+        j++;
+    }
+    buffer[n] = '\0';
+    return buffer;
 }
 
 
