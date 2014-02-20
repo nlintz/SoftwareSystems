@@ -46,7 +46,8 @@ void writeByte(int x) {
 
 int low = 36;
 int high = 255;
-int stride = 5;
+//int stride = 5;
+int stride = 1;
 int counter = low;
 
 void loop() {
