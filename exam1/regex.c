@@ -28,8 +28,10 @@ char tracks[][80] = {
 void find_track(char *search_for)
 {
     int i;
+    printf("%c\n", *search_for);
+
     for (i=0; i<NUM_TRACKS; i++) {
-	if (strstr(tracks[i], search_for)) {
+	if (strstr(tracks[i], *search_for)) {
 	    printf("Track %i: '%s'\n", i, tracks[i]);
 	}
     }
@@ -75,11 +77,13 @@ void find_track_regex(char *pattern)
 int main (int argc, char *argv[])
 {
     // char *target = 'F';
-    char *target = "F";
+    // char *target = "F";
+    // char foo = 'F';
+    char target = 'F';
     char *pattern = "Fr.*Fr.*";
 
     // find_track(target);
-    find_track(target);
+    find_track(&target);
     find_track_regex(pattern);
 
     return 0;

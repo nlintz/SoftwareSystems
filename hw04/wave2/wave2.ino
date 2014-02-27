@@ -29,15 +29,14 @@ void setup() {
   pinMode(12, OUTPUT);  
   pinMode(11, OUTPUT);  
   pinMode(10, OUTPUT);  
-  pinMode(9, OUTPUT);  
+  pinMode(9, OUTPUT);
   pinMode(8, OUTPUT);  
   pinMode(7, OUTPUT);  
-  pinMode(6, OUTPUT);  
-}
+  pinMode(6, OUTPUT);
+  }
 
 void writeByte(int x) {
   int pin;
-  
   for (pin=13; pin>=6; pin--) {
     digitalWrite(pin, x&1);
     x >>= 1;
@@ -46,8 +45,7 @@ void writeByte(int x) {
 
 int low = 36;
 int high = 255;
-//int stride = 5;
-int stride = 1;
+int stride = 5;
 int counter = low;
 
 void loop() {
@@ -57,7 +55,6 @@ void loop() {
   counter += stride;
   if (counter > high) {
     counter = low;
-    //Serial.println(counter);
   }
 
   // write to the digital pins  
