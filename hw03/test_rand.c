@@ -40,12 +40,14 @@ double time_func(int iters, float (*func)())
 
 #include "rand.c"
 
-main (int argc, char *argv[])
-{
+int main (int argc, char *argv[])
+{ 
   int i;
   float f;
   double t0, t1;
-  int iters = 1000000000;
+  double d;
+  // int iters = 1000000000;
+  int iters = 1000000;
   int seed = 17;
 
   srandom (seed);
@@ -100,7 +102,23 @@ main (int argc, char *argv[])
   }
   t1 = get_seconds();
   printf ("mine \t %f ms\n", t1 - t0);
-    
+
+// My Random Float Test
+  srandom (seed);
+  t0 = get_seconds();
+  for (i=0; i<iters; i++) {
+    f = my_random_float2();
+  }
+  t1 = get_seconds();
+  printf ("mine2 \t %f ms\n", t1 - t0);
+
+  srandom (seed);
+  t0 = get_seconds();
+  for (i=0; i<iters; i++) {
+    f = my_random_float2();
+  }
+  t1 = get_seconds();
+  printf ("mine2 \t %f ms\n", t1 - t0);
 
   srandom (seed);
   t0 = get_seconds();
@@ -117,5 +135,40 @@ main (int argc, char *argv[])
     f = random_float();
   }
   t1 = get_seconds();
-  printf ("theirs \t %f ms\n", t1 - t0);    
+  printf ("theirs \t %f ms\n", t1 - t0);  
+
+// Double Test
+  srandom (seed);
+  t0 = get_seconds();
+  for (i=0; i<iters; i++) {
+    d = my_random_double();
+  }
+  t1 = get_seconds();
+  printf ("my double \t %f ms\n", t1 - t0);  
+
+  srandom (seed);
+  t0 = get_seconds();
+  for (i=0; i<iters; i++) {
+    d = my_random_double();
+  }
+  t1 = get_seconds();
+  printf ("my double \t %f ms\n", t1 - t0);  
+
+  srandom (seed);
+  t0 = get_seconds();
+  for (i=0; i<iters; i++) {
+    d = random_double();
+  }
+  t1 = get_seconds();
+  printf ("their double \t %f ms\n", t1 - t0); 
+  
+  srandom (seed);
+  t0 = get_seconds();
+  for (i=0; i<iters; i++) {
+    d = random_double();
+  }
+  t1 = get_seconds();
+  printf ("their double \t %f ms\n", t1 - t0);  
+
+  return 0;  
 }

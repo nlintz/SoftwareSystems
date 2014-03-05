@@ -86,10 +86,52 @@ float my_random_float2()
   return b.f;
 }
 
-// compute a random double using my algorithm
-double my_random_double()
+uint64_t bigger_random()
 {
-  // TODO: fill this in
+  uint64_t big_x = 0;
+  int x = random();
+  big_x = big_x | x;
+  big_x = big_x << 32;
+  x = random();
+  big_x = big_x | x;
+  return big_x;
+}
+
+// compute a random double using my algorithm
+// Returns a theoretically evenly distributed random number
+double my_random_double() // FILL THIS IN
+{
+  uint64_t x;
+  uint64_t mant;
+  uint64_t exp = 1022;
+  int mask = 1;
+
+  union {
+    double d;
+    uint64_t i;
+  } b;
+
+  // generate random bits until we see the first set bit
+  while (1) {
+    x = bigger_random();
+    if (x == 0) {
+      exp -= 63;
+    } else {
+      break;
+    }
+  }
+
+  // find the location of the first set bit and compute the exponent
+  while (x & mask) {
+    mask <<= 1;
+    exp--;
+  }
+
+  // use the remaining bit as the mantissa
+  mant = x >> 11; // Change
+  b.i = (exp << 52) | mant; // Change
+
+  return b.d;
 }
 
 // return a constant (this is a dummy function for time trials)

@@ -1,0 +1,40 @@
+Question 2
+	Results - 
+	dummy 	 0.003000 ms
+	dummy 	 0.001000 ms
+	dummy2 	 3812.281000 ms
+	dummy2 	 3981.670000 ms
+	mine 	 3851.075000 ms
+	mine 	 3787.004000 ms
+	theirs 	 3789.566000 ms
+	theirs 	 3864.266000 ms
+
+	theirs < mine < dummy2
+
+Question 3
+	Results - 
+	dummy 	 0.002000 ms
+	dummy 	 0.000000 ms
+	dummy2 	 3892.299000 ms
+	dummy2 	 3863.526000 ms
+	mine 	 3879.217000 ms
+	mine 	 3864.915000 ms
+	mine2 	 10449.411000 ms
+	mine2 	 10581.952000 ms
+	theirs 	 3848.096000 ms
+	theirs 	 3851.068000 ms
+
+	theirs < mine < mine2
+
+Question 4
+	Results - 
+	The distribution looks uniform
+
+Question 5
+	Results - 
+	my double 	 13995.085000 ms
+	my double 	 13912.736000 ms
+	their double 	 3831.315000 ms
+	their double 	 3826.640000 ms
+
+	theirs < mine

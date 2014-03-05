@@ -81,30 +81,30 @@ static void tutorial_update( mongo *conn ) {
   bson_destroy( op );
 }
 
-static void tutorial_index( mongo *conn ) {
-  bson key[1];
+// static void tutorial_index( mongo *conn ) {
+//   bson key[1];
 
-  bson_init( key );
-  bson_append_int( key, "name", 1 );
-  bson_finish( key );
+//   bson_init( key );
+//   bson_append_int( key, "name", 1 );
+//   bson_finish( key );
 
-  mongo_create_index( conn, "tutorial.persons", key, NULL, 0, NULL );
+//   mongo_create_index( conn, "tutorial.persons", key, NULL, 0, NULL );
 
-  bson_destroy( key );
+//   bson_destroy( key );
 
-  printf( "simple index created on \"name\"\n" );
+//   printf( "simple index created on \"name\"\n" );
 
-  bson_init( key );
-  bson_append_int( key, "age", 1 );
-  bson_append_int( key, "name", 1 );
-  bson_finish( key );
+//   bson_init( key );
+//   bson_append_int( key, "age", 1 );
+//   bson_append_int( key, "name", 1 );
+//   bson_finish( key );
 
-  mongo_create_index( conn, "tutorial.persons", key, NULL, 0, NULL );
+//   mongo_create_index( conn, "tutorial.persons", key, NULL, 0, NULL );
 
-  bson_destroy( key );
+//   bson_destroy( key );
 
-  printf( "compound index created on \"age\", \"name\"\n" );
-}
+//   printf( "compound index created on \"age\", \"name\"\n" );
+// }
 
 
 int main() {
@@ -124,6 +124,10 @@ int main() {
   bson_init( b );
   bson_append_new_oid( b, "_id" );
   bson_append_string( b, "name", "Joe" );
+  bson_append_start_array(b, "names");
+  bson_append_string(b, "0", "a");
+  bson_append_string(b, "1", "b");
+  bson_append_finish_array(b);
   bson_append_int( b, "age", 33 );
   bson_finish( b );
 
@@ -137,7 +141,7 @@ int main() {
   tutorial_empty_query(conn);
   tutorial_simple_query(conn);
   tutorial_update(conn);
-  tutorial_index(conn);
+  // tutorial_index(conn);
 
   mongo_destroy( conn );
 
