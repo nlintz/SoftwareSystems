@@ -28,7 +28,8 @@ Question 3
 
 Question 4
 	Results - 
-	The distribution looks uniform => checkout histograms.py
+	The distribution looks uniform => checkout histograms.py (Im using a histogram instead of a pdf. 
+	A histogram is essentially a non-normalized cdf in this case)
 
 Question 5
 	Results - 
