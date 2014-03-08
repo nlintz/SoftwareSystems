@@ -9,7 +9,6 @@ License: Creative Commons Attribution-ShareAlike 3.0
 #include <stdlib.h>
 #include <string.h>
 
-
 // VALUE: represents a value in a key-value pair
 
 /* Here's one way of making a polymorphic object in C */
@@ -108,7 +107,7 @@ int hash_int(void *p)
 }
 
 
-/* Hashes a string. */
+// /* Hashes a string. - Improved so hashes of stirngs with different lengths are more likely to be differnt */
 int hash_string(void *p)
 {
     char *s = (char *) p;
@@ -116,7 +115,7 @@ int hash_string(void *p)
     int i = 0;
 
     while (s[i] != 0) {
-	total += s[i];
+	total += ((1<<i)%10) * s[i];
 	i++;
     }
     return total;
@@ -253,9 +252,12 @@ Value *list_lookup(Node *list, Hashable *key)
 
 typedef struct map {
     int n;
+    int num;
     Node **lists;
 } Map;
 
+void map_add(Map *map, Hashable *key, Value *value);
+void map_resize(Map *map);
 
 /* Makes a Map with n lists. - fixed */
 Map *make_map(int n)
@@ -263,6 +265,7 @@ Map *make_map(int n)
     Map *map = malloc(sizeof(map));
     map->lists = malloc(sizeof(Node)*n);
     map->n = n;
+    map->num = 0; //Number of elements in the hashmap
     return map;
 }
 
@@ -288,11 +291,34 @@ int getHashmapIndex(Map *map, Hashable *key)
 /* Adds a key-value pair to a map. - fixed */
 void map_add(Map *map, Hashable *key, Value *value)
 {
+    if (map->num == map->n){
+        map_resize(map);
+    }
     int index = getHashmapIndex(map, key);
     Node *rest = map->lists[index];
     map->lists[index] = prepend(key, value, rest);
+    map->num++;
 }
 
+/* resizes the hashmap if the number of elements is bigger than the size of the map to get ~O(1) lookup */
+void map_resize(Map *map)
+{
+    int i;
+    int new_n = map->n * 2;
+    Map *new_map = make_map(new_n);
+
+    for (i=0; i<(map->n); i++)
+    {
+        Node *currentNode = map->lists[i];
+        while (currentNode != NULL)
+        {
+            map_add(new_map, currentNode->key, currentNode->value);
+            currentNode = currentNode->next;
+        }
+    }
+    *(map) = *(new_map);
+    free(new_map);
+}
 
 /* Looks up a key and returns the corresponding value, or NULL. - fixed */
 Value *map_lookup(Map *map, Hashable *key)
@@ -341,7 +367,7 @@ int main ()
     print_lookup(value);
 
     // make a map
-    Map *map = make_map(10);
+    Map *map = make_map(1);
     map_add(map, hashable1, value1);
     map_add(map, hashable2, value2);
 
