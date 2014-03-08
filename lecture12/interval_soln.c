@@ -25,7 +25,7 @@ char *convert_time(time_t t) {
         exit(EXIT_FAILURE);
     }
  
-    //return c_time_string;
+    // return c_time_string;
     return strdup(c_time_string);
 }
 
