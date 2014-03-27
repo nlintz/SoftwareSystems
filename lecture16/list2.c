@@ -108,6 +108,25 @@ void reverse(Node **head) {
 // Returns 0 if successful, -1 if the index is out of range.
 int insert_by_index(Node **head, int val, int index) {
     // FILL THIS IN
+    int sizeofList = 0;
+    Node *node = *head;
+    Node *previousNode=NULL;
+    while(node != NULL)
+    {
+        if (sizeofList == index)
+        {
+            Node *insertNode = make_node(val, NULL);
+            insertNode->next = node;
+            if (previousNode)
+            {
+                previousNode->next = insertNode;
+            }
+            return 1;
+        }
+        previousNode = node;
+        node = node->next;
+        sizeofList++;
+    }
     return -1;
 }
 
