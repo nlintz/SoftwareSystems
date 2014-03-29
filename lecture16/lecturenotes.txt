@@ -1,0 +1,14 @@
+To find cache size
+
+uint32_t *array = calloc(100000 * sizeof(uint32_t));
+
+average time = Th + mTp 
+
+Th = 1ns
+Tm = 12ns
+
+128 byte cache
+
+32 b/128 B = 1/32 miss
+
+this occurs 100,000 times

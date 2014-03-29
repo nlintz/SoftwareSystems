@@ -111,7 +111,11 @@ int insert_by_index(Node **head, int val, int index) {
     int sizeofList = 0;
     Node *node = *head;
     Node *previousNode=NULL;
-    printf("index: %d\n", index);
+    if (index == 0)
+    {
+        push(head, val);
+        return 1;
+    }
     while(node != NULL)
     {
         if (sizeofList == index)
@@ -121,10 +125,6 @@ int insert_by_index(Node **head, int val, int index) {
             if (previousNode)
             {
                 previousNode->next = insertNode;
-            }
-            if (sizeofList == 0)
-            {
-                *head = insertNode;
             }
             return 1;
         }
