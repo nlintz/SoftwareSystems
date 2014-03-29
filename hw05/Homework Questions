@@ -1,0 +1,8 @@
+a) Where is GLib from and why does it exist?  Who uses it, and for what?  Would it have been better if they had given it a name less likely to be confused with glibc?
+GLib is from the GIMP toolkit and exists to provide advanced data structures to developers. Initially, it was used for UI code for GTK+ but now many developers use it for the powerful dynamic data structures and function sit provides. It probably would have been better to call it something like dataStructures.c because glibc is the gnu implementation of the standard c library.
+
+b) What are the most important pros and cons of using GLib, as opposed to another library, or just using core C features?
+The pros of GLib are that it provides a lot of high level abstractions that are otherwise challenging to write. Howeover, the abstractions will be heavier than rolling out your own data structures since they are designed for robustness and ease of use whereas you can tune your own data structures for a specific purpose and get better performance.
+
+c) What do you have to do to compile and run a "Hello GLib" example?
+I had to install Glib and reference it in my makefile using pkg-config. 
