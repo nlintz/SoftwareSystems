@@ -2,8 +2,8 @@ CC=gcc
 OBJECTS=
 GLIB=`pkg-config --cflags --libs glib-2.0`
 
-test_helloWorld: helloWorld
-	./build/helloWorld
+test_helloWorld: wordFreq
+	./build/wordFreq
 
 test_wordFreq: wordFreq
 	./build/wordFreq
