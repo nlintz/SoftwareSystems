@@ -76,6 +76,10 @@ void stripPunctuation(char **word)
 int isWord(char *word)
 {
 	int i;
+	if (strlen(word) == 0)
+	{
+		return 0;
+	}
 	for(i=0; i<strlen(word); i++)
 	{
 		if (!g_ascii_isalpha(word[i]))
@@ -89,12 +93,13 @@ int isWord(char *word)
 void addWordToHistogram(GHashTable *hist, char *line)
 {
 	char *word = line;
-if (!isWord(word))
+	toLower(word);
+	stripPunctuation(&word);
+
+	if (!isWord(word))
 	{
 		return;
 	}
-	toLower(word);
-	stripPunctuation(&word);
 	
 	if (g_hash_table_lookup(hist, word))
 	{
