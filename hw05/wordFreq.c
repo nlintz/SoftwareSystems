@@ -89,13 +89,13 @@ int isWord(char *word)
 void addWordToHistogram(GHashTable *hist, char *line)
 {
 	char *word = line;
-
-	toLower(word);
-	stripPunctuation(&word);
-	if (!isWord(word))
+if (!isWord(word))
 	{
 		return;
 	}
+	toLower(word);
+	stripPunctuation(&word);
+	
 	if (g_hash_table_lookup(hist, word))
 	{
 		Value *val = (Value*)g_hash_table_lookup(hist, word);
