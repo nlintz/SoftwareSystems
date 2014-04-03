@@ -7,7 +7,7 @@
 #include "threads/interrupt.h"
 #include "threads/synch.h"
 #include "threads/thread.h"
-#include "lib/kernal/list.c"
+#include "list.h"
   
 /* See [8254] for hardware details of the 8254 timer chip. */
 
@@ -26,8 +26,14 @@ static int64_t ticks;
 static unsigned loops_per_tick;
 
 /* Thread List */
-struct list *threadList;
-list_init(threadList);
+struct sleeping_thread {
+  struct list_elem elem;
+  struct thread sleep_thread;
+  struct semaphore sema;
+  int64_t ticks;
+};
+
+struct list sleeping_threads = LIST_INITIALIZER(sleeping_threads);
 
 static intr_handler_func timer_interrupt;
 static bool too_many_loops (unsigned loops);
@@ -95,12 +101,17 @@ timer_elapsed (int64_t then)
 void
 timer_sleep (int64_t ticks) 
 {
-  struct thread *currThread = thread_current;
-  struct semaphor *sem = malloc(sizeof(semaphor));
-  sema_init(sem, 0);
+  struct thread *waiter = thread_current();
+  struct sleeping_thread thread_to_sleep;
+  sema_init(&thread_to_sleep.sema, 0);
 
-  // ***Add sem to queue***
-  sema_down(sem);
+  // sleeping_thread->sleep_thread = currThread;
+  // sleep_thread->ticks = ticks;
+  // sleep_thread->sema = sema;
+
+  // list_push_front(&sleeping_threads, thread_to_sleep->list_elem);
+
+  // sema_down(sleep_thread->sema);
 
   // int64_t start = timer_ticks ();
 
@@ -185,6 +196,17 @@ timer_interrupt (struct intr_frame *args UNUSED)
 {
   ticks++;
   thread_tick ();
+
+  // struct list_elem *e;
+
+  // for (e = list_begin (&foo_list); e != list_end (&foo_list); e = list_next (e))
+  // {
+  //   struct sleeping_thread *slt = list_entry (e, struct foo, elem);
+  //   if (slt->ticks < ticks)
+  //   {
+  //     sema_up(slt->sema);
+  //   }
+  // }
 }
 
 /* Returns true if LOOPS iterations waits for more than one timer
