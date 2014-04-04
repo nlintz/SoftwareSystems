@@ -101,23 +101,11 @@ timer_elapsed (int64_t then)
 void
 timer_sleep (int64_t ticks) 
 {
-  struct thread *waiter = thread_current();
-  struct sleeping_thread thread_to_sleep;
-  sema_init(&thread_to_sleep.sema, 0);
+  int64_t start = timer_ticks ();
 
-  // sleeping_thread->sleep_thread = currThread;
-  // sleep_thread->ticks = ticks;
-  // sleep_thread->sema = sema;
-
-  // list_push_front(&sleeping_threads, thread_to_sleep->list_elem);
-
-  // sema_down(sleep_thread->sema);
-
-  // int64_t start = timer_ticks ();
-
-  // ASSERT (intr_get_level () == INTR_ON);
-  // while (timer_elapsed (start) < ticks) 
-  //   thread_yield ();
+  ASSERT (intr_get_level () == INTR_ON);
+  while (timer_elapsed (start) < ticks) 
+    thread_yield ();
 }
 
 /* Sleeps for approximately MS milliseconds.  Interrupts must be
@@ -196,17 +184,6 @@ timer_interrupt (struct intr_frame *args UNUSED)
 {
   ticks++;
   thread_tick ();
-
-  // struct list_elem *e;
-
-  // for (e = list_begin (&foo_list); e != list_end (&foo_list); e = list_next (e))
-  // {
-  //   struct sleeping_thread *slt = list_entry (e, struct foo, elem);
-  //   if (slt->ticks < ticks)
-  //   {
-  //     sema_up(slt->sema);
-  //   }
-  // }
 }
 
 /* Returns true if LOOPS iterations waits for more than one timer
