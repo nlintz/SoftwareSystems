@@ -220,7 +220,7 @@ timer_interrupt (struct intr_frame *args UNUSED)
     {
       struct thread *waiting_thread = list_entry (e, struct thread, 
         thread_elem); // get the waiting thread
-      if (waiting_thread->ticks <= timer_ticks()) // check if thread is ready
+      if (waiting_thread->ticks <= ticks) // check if thread is ready
       {
         sema_up(&waiting_thread->sem); // wake the thread
       }
