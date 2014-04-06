@@ -1,6 +1,6 @@
 gcc -c wordFreq.c -o build/wordFreq.o `pkg-config --cflags --libs glib-2.0`
 gcc build/wordFreq.o -o build/wordFreq `pkg-config --cflags --libs glib-2.0`
-./build/wordFreq
+./build/wordfreq
 Word: virus  Frequency: 1
 Word: gas  Frequency: 1
 Word: wild  Frequency: 1
@@ -18,6 +18,7 @@ Word: produced  Frequency: 1
 Word: trenches  Frequency: 1
 Word: required  Frequency: 1
 Word: dwelt  Frequency: 1
+Word: produce  Frequency: 1
 Word: afternoons  Frequency: 1
 Word: dragging  Frequency: 1
 Word: cities  Frequency: 1
@@ -43,7 +44,7 @@ Word: non  Frequency: 1
 Word: seeking  Frequency: 1
 Word: whirring  Frequency: 1
 Word: educational  Frequency: 1
-Word: produce  Frequency: 1
+Word: 'as  Frequency: 1
 Word: vitality  Frequency: 1
 Word: boatmen  Frequency: 1
 Word: tray  Frequency: 1
@@ -689,6 +690,7 @@ Word: missing  Frequency: 1
 Word: nearing  Frequency: 1
 Word: tiptoe  Frequency: 1
 Word: towing  Frequency: 1
+Word: state's  Frequency: 1
 Word: chairs  Frequency: 1
 Word: shan  Frequency: 1
 Word: shiny  Frequency: 1
@@ -1655,6 +1657,7 @@ Word: confessed  Frequency: 2
 Word: lonesome  Frequency: 2
 Word: stream  Frequency: 2
 Word: hopes  Frequency: 2
+Word: dr  Frequency: 2
 Word: ashamed  Frequency: 2
 Word: paper  Frequency: 2
 Word: effort  Frequency: 2
@@ -1718,7 +1721,6 @@ Word: bound  Frequency: 2
 Word: tale  Frequency: 2
 Word: garage  Frequency: 2
 Word: holes  Frequency: 2
-Word: dr  Frequency: 2
 Word: stretched  Frequency: 2
 Word: created  Frequency: 2
 Word: drew  Frequency: 2
@@ -2114,6 +2116,7 @@ Word: beating  Frequency: 3
 Word: ate  Frequency: 3
 Word: fixed  Frequency: 3
 Word: understood  Frequency: 3
+Word: foundation's  Frequency: 3
 Word: steering  Frequency: 3
 Word: snakes  Frequency: 3
 Word: wailed  Frequency: 3
@@ -2648,6 +2651,7 @@ Word: screamed  Frequency: 6
 Word: charge  Frequency: 6
 Word: grab  Frequency: 6
 Word: delight  Frequency: 6
+Word: state  Frequency: 6
 Word: giving  Frequency: 6
 Word: distribute  Frequency: 6
 Word: cannot  Frequency: 6
@@ -2735,7 +2739,6 @@ Word: indeed  Frequency: 7
 Word: send  Frequency: 7
 Word: provide  Frequency: 7
 Word: chuckled  Frequency: 7
-Word: state  Frequency: 7
 Word: stepped  Frequency: 7
 Word: begged  Frequency: 7
 Word: point  Frequency: 7
@@ -3203,6 +3206,7 @@ Word: being  Frequency: 22
 Word: daddy  Frequency: 22
 Word: terms  Frequency: 22
 Word: took  Frequency: 22
+Word: foundation  Frequency: 22
 Word: quite  Frequency: 22
 Word: hand  Frequency: 22
 Word: hands  Frequency: 22
@@ -3234,7 +3238,6 @@ Word: far  Frequency: 25
 Word: later  Frequency: 25
 Word: waves  Frequency: 25
 Word: small  Frequency: 25
-Word: foundation  Frequency: 25
 Word: several  Frequency: 25
 Word: dent  Frequency: 25
 Word: sure  Frequency: 25

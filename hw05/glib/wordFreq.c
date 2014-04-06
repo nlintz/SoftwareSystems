@@ -63,11 +63,11 @@ void stripPunctuation(char **word)
 	GMatchInfo *matchInfo;
 	GRegex *regex;
 
-	regex = g_regex_new ("([a-z]*)", 0, 0, &err);   
+	regex = g_regex_new ("(^[a-z]*'*[a-z]*)", 0, 0, &err);
 	g_regex_match (regex, *word, 0, &matchInfo);
- 
-	gchar *result = g_match_info_fetch (matchInfo, 0);
 
+	gchar *result = g_match_info_fetch (matchInfo, 0);
+	
 	*word = result;
 
 	g_regex_unref(regex);
@@ -75,17 +75,9 @@ void stripPunctuation(char **word)
 
 int isWord(char *word)
 {
-	int i;
 	if (strlen(word) == 0)
 	{
 		return 0;
-	}
-	for(i=0; i<strlen(word); i++)
-	{
-		if (!g_ascii_isalpha(word[i]))
-		{
-			return 0;
-		}
 	}
 	return 1;
 }
@@ -95,12 +87,11 @@ void addWordToHistogram(GHashTable *hist, char *line)
 	char *word = line;
 	toLower(word);
 	stripPunctuation(&word);
-
 	if (!isWord(word))
 	{
 		return;
 	}
-	
+
 	if (g_hash_table_lookup(hist, word))
 	{
 		Value *val = (Value*)g_hash_table_lookup(hist, word);
