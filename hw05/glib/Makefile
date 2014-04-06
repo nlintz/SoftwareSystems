@@ -5,8 +5,11 @@ GLIB=`pkg-config --cflags --libs glib-2.0`
 test_helloWorld: helloWorld
 	./build/helloWorld
 
-test_wordFreq: wordFreq
-	./build/wordFreq
+wordfreq_test: wordFreq
+	./build/wordfreq
+
+wordfreq: wordFreq.o
+	$(CC) build/wordFreq.o -o wordfreq $(GLIB)
 
 helloWorld: helloWorld.o
 	$(CC) build/helloWorld.o -o build/helloWorld $(GLIB)
