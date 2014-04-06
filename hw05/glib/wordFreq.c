@@ -196,6 +196,11 @@ void addWordToHistogram(GHashTable *hist, char *line)
 GHashTable* getHistogramFromFile(char *fileName) 
 {
 	GHashTable *hist = g_hash_table_new(g_str_hash, g_str_equal);
+	if (hist == NULL)
+	{
+		fprintf(stderr, "%s\n", "g_hash_table_new failed");
+		exit(1);
+	}
 	FILE *file = fopen(fileName, "r");
 	char word[80];
 
@@ -218,6 +223,11 @@ GHashTable* getHistogramFromFile(char *fileName)
 GList *getWordFreqs(GHashTable *hist)
 {
 	GList *keys = g_hash_table_get_keys(hist);
+	if (keys == NULL)
+	{
+		fprintf(stderr, "%s\n", "g_hash_table_get_keys failed");
+		exit(1);
+	}
 	GList *wordFreqs = NULL;
 
 	for(; keys!=NULL; keys=keys->next)
@@ -269,6 +279,11 @@ void printSortedHistogram(GHashTable *hist)
 {
 	GList *wordFreqs = getWordFreqs(hist);
 	wordFreqs = g_list_sort(wordFreqs, compareFrequency);
+	if (wordFreqs == NULL)
+	{
+		fprintf(stderr, "%s\n", "g_list_sort failed");
+		exit(1);
+	}
 	while(wordFreqs)
 	{
 		WordFrequency *wf = wordFreqs->data;
