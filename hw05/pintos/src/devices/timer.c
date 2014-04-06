@@ -25,15 +25,9 @@ static int64_t ticks;
    Initialized by timer_calibrate(). */
 static unsigned loops_per_tick;
 
-/* Thread List */
-struct sleeping_thread {
-  struct list_elem elem;
-  struct thread sleep_thread;
-  struct semaphore sema;
-  int64_t ticks;
-};
-
-struct list sleeping_threads = LIST_INITIALIZER(sleeping_threads);
+/*  Initialize a wait_list for waiting threads 
+*/
+static struct list wait_list = LIST_INITIALIZER (wait_list);
 
 static intr_handler_func timer_interrupt;
 static bool too_many_loops (unsigned loops);
@@ -95,17 +89,44 @@ timer_elapsed (int64_t then)
   return timer_ticks () - then;
 }
 
+
+/* Comparator function which compares thread's ticks
+  *elem_a/elem_b: list_elems
+
+  returns whichever thread has the shortest number of ticks until wake up
+*/
+bool compare_ticks ( const struct list_elem *elem_a, const struct list_elem *elem_b, void *foo ) {
+  const struct thread *thread_a = list_entry (elem_a, struct thread, thread_elem);
+  const struct thread *thread_b = list_entry (elem_b, struct thread, thread_elem);
+  return thread_b->ticks - thread_a->ticks;
+}
+
 /* Sleeps for approximately TICKS timer ticks.  Interrupts must
    be turned on. */
 // TODO - Modify Me, give semaphor, add to priority queue, 
 void
 timer_sleep (int64_t ticks) 
 {
-  int64_t start = timer_ticks ();
-
   ASSERT (intr_get_level () == INTR_ON);
-  while (timer_elapsed (start) < ticks) 
-    thread_yield ();
+
+  intr_disable(); // Disable interrupts in the kernal
+
+  struct thread *currThread = thread_current(); // Get current thread
+  int64_t start = timer_ticks (); // Get the current number of ticks
+  
+  /* We no longer have a concept of "elapsed time". Instead we want to
+   set this threads wakeup time with an absolute reference to the 
+   number of ticks since the OS booted. We could have used elapse time but
+   we would need to store the start time in the thread struct which is
+   unecessary.
+  */
+  currThread->ticks = start + ticks;
+  // Insert thread into ordered queue
+  list_insert_ordered (&wait_list, &currThread->thread_elem, 
+    compare_ticks, NULL); 
+  sema_down(&currThread->sem); // Sleep le thread
+  
+  intr_enable(); // Enable interrupts in the kernal
 }
 
 /* Sleeps for approximately MS milliseconds.  Interrupts must be
@@ -182,8 +203,37 @@ timer_print_stats (void)
 static void
 timer_interrupt (struct intr_frame *args UNUSED)
 {
+  /*
+    Keep the old logic
+  */
   ticks++;
   thread_tick ();
+
+  /*
+  Pattern for iterating over the queue when you remove elements - 
+    see https://www.ida.liu.se/~TDDI81/2014/labs/given_files/upg4/list/list.c 
+      line 228
+  */
+  struct list_elem *e;
+  for (e = list_begin (&wait_list); e != list_end (&wait_list);
+    e = list_remove (e))
+    {
+      struct thread *waiting_thread = list_entry (e, struct thread, 
+        thread_elem); // get the waiting thread
+      if (waiting_thread->ticks <= timer_ticks()) // check if thread is ready
+      {
+        sema_up(&waiting_thread->sem); // wake the thread
+      }
+      /*
+      since the threads are sorted, if you encounter a thread that's 
+      not ready to wake up, you know all the following threads won't be
+      ready to wake either. Therefore, you should stop checking if they're
+      ready to be woken
+      */
+      else {
+        break;
+      }
+    }
 }
 
 /* Returns true if LOOPS iterations waits for more than one timer
