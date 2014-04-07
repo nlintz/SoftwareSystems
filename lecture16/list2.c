@@ -107,40 +107,40 @@ void reverse(Node **head) {
 // element between the first and second elements.
 // Returns 0 if successful, -1 if the index is out of range.
 int insert_by_index(Node **head, int val, int index) {
-    // FILL THIS IN
-    int sizeofList = 0;
-    Node *node = *head;
-    Node *previousNode=NULL;
-    if (index == 0)
-    {
+    int i;
+    Node *currentNode = *head;
+    if (index == 0){
         push(head, val);
-        return 1;
+        return 0;
     }
-    while(node != NULL)
+    for (i=0; i<index-1; i++)
     {
-        if (sizeofList == index)
+        if (currentNode == NULL)
         {
-            Node *insertNode = make_node(val, NULL);
-            insertNode->next = node;
-            if (previousNode)
-            {
-                previousNode->next = insertNode;
-            }
-            return 1;
+            return -1;
         }
-        previousNode = node;
-        node = node->next;
-        sizeofList++;
-    
+        currentNode = currentNode->next;
     }
-    if (index == sizeofList)
-        {
-            Node *insertNode = make_node(val, NULL);
-            previousNode->next = insertNode;
-            return 1;
-        }
+    if (currentNode == NULL) return -1;
+    currentNode->next = make_node(val, currentNode->next);
+    return 0;
 
-    return -1;
+    // int i;
+    // Node *node = *head;
+
+    // if (index == 0) {
+    // push(head, val);
+    // return 0;
+    // }
+
+    // for (i=0; i<index-1; i++) {
+    // if (node == NULL) return -1;
+    // node = node->next;
+    // }
+    // if (node == NULL) return -1;
+    // node->next = make_node(val, node->next);
+    // return 0;
+
 }
 
 // Makes a mysterious data structure.
