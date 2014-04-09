@@ -153,7 +153,11 @@ double *row_sum(Matrix *A) {
     int i, j;
 
     double *res = malloc(A->rows * sizeof(double));
-
+    if (res == NULL)
+    {
+        fprintf(stderr, "%s\n", "Malloc Failed");
+        exit(1);
+    }
     for (i=0; i<A->rows; i++) {
 	total = 0.0;
 	for (j=0; j<A->cols; j++) {
@@ -170,7 +174,11 @@ double *column_sum(Matrix *A) {
     int i, j;
 
     double *res = malloc(A->cols * sizeof(double));
-
+    if (res == NULL)
+    {
+        fprintf(stderr, "%s\n", "Malloc Failed");
+        exit(1);
+    }
     for (i=0; i<A->cols; i++) {
     total = 0.0;
         for (j=0; j<A->rows; j++) {
@@ -187,6 +195,11 @@ double *diag_sum(Matrix *A){
     int i, j;
 
     double *res = malloc(2 * sizeof(double));
+    if (res == NULL)
+    {
+        fprintf(stderr, "%s\n", "Malloc Failed");
+        exit(1);
+    }
     total = 0.0;
     for (int i = 0; i<A->rows; i++)
     {
