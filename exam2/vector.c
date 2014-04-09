@@ -6,7 +6,9 @@ License: Creative Commons Attribution-ShareAlike 3.0
 */
 
 
-#include "stdio.h"
+// #include "stdio.h"
+#include <stdio.h> 
+#include <stdlib.h> // Error 4
 
 typedef struct {
     double *data;
@@ -17,7 +19,8 @@ typedef struct {
 Vector *make_vector(int len) {
     Vector *vector = malloc(sizeof(Vector));
 
-    vector->data = calloc(len * sizeof(double *));
+    // vector->data = calloc(len * sizeof(double *)); // Error 3
+    vector->data = calloc(len, sizeof(double *));
     vector->len = len;
     return vector;
 }
@@ -67,12 +70,15 @@ void add_vector(Vector *A, Vector *B, Vector *C) {
 }
 
 // Adds two vectors elementwise and returns a new vector.
-double *add_vector_func(Vector *A, Vector *B) {
+// double *add_vector_func(Vector *A, Vector *B) { // Error 5
+Vector *add_vector_func(Vector *A, Vector *B) { 
     Vector *C = make_vector(A->len);
     add_vector(A, B, C);
+    return C; // Error 6
 }
 
-int main {
+// int main { //ERROR 1
+int main() {
     Vector *A = make_vector(4);
     consecutive_vector(A);
     printf("A\n");
@@ -91,5 +97,6 @@ int main {
     free_vector(B);
     free_vector(C);
 
-    return 0
+    // return 0
+    return 0; // Error 2
 }
