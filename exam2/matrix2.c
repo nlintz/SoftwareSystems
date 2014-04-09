@@ -136,6 +136,15 @@ double matrix_sum2(Matrix *A) {
     }
     return total;
 }
+
+// Sets the rows of a matrix
+void set_matrix_row(Matrix *A, double *row_vals, int row_number)
+{
+    int i;
+    for (i=0; i<A->cols; i++){
+        A->data[row_number][i] = row_vals[i];
+    }
+}
     
 
 // Adds up the rows of A and returns a heap-allocated array of doubles.
@@ -155,6 +164,48 @@ double *row_sum(Matrix *A) {
     return res;
 }
 
+// Adds up the columns of A and returns a heap-allocated array of doubles.
+double *column_sum(Matrix *A) {
+    double total;
+    int i, j;
+
+    double *res = malloc(A->cols * sizeof(double));
+
+    for (i=0; i<A->cols; i++) {
+    total = 0.0;
+        for (j=0; j<A->rows; j++) {
+            total += A->data[j][i];
+        }
+        res[i] = total;
+    }
+    return res;
+}
+
+// Adds up the 2 diagonals of A and returns a heap-allocated array of doubles.
+double *diag_sum(Matrix *A){
+    double total;
+    int i, j;
+
+    double *res = malloc(2 * sizeof(double));
+    total = 0.0;
+    for (int i = 0; i<A->rows; i++)
+    {
+        total += A->data[i][i];
+    }
+    res[0] = total;
+
+    j = 0;
+    total = 0.0;
+
+    for (i=A->rows-1; i>=0 ; i--){
+        total += A->data[j][i];
+        j++;
+    }
+    res[1] = total;
+
+    return res;
+}
+
 /* 
    http://en.wikipedia.org/wiki/Magic_square
 
@@ -168,6 +219,36 @@ double *row_sum(Matrix *A) {
 
    Feel free to use row_sum().
 */
+   // TODOS add in malloc checks
+int is_magic_square(Matrix *A) {
+    // If the matrix isn't a square, it can't be a magic square
+    if (A->rows != A->cols) {
+        return 0;
+    }
+
+    int i = 0;
+    double *row_sums = row_sum(A);
+    double *col_sums = column_sum(A);
+    double *diag_sums = diag_sum(A);
+
+    double magic_number = row_sums[0];
+    for (i=0; i<A->rows; i++)
+    {
+        if (row_sums[i] != magic_number)
+        {
+            return 0;
+        }
+        if (col_sums[i] != magic_number)
+        {
+            return 0;
+        }
+    }
+    if ((diag_sums[0] != magic_number) || (diag_sums[1] != magic_number))
+    {
+        return 0;
+    }
+    return 1;
+}
 
 
 int main() {
@@ -197,11 +278,42 @@ int main() {
     sum = matrix_sum2(A);
     printf("sum = %lf\n", sum);
 
+    puts("Row Sum:");
     double *sums = row_sum(A);
     for (i=0; i<A->rows; i++) {
 	printf("row %d\t%lf\n", i, sums[i]);
     }
     // should print 6, 22, 38
+
+    puts("Column Sum:");
+    double *col_sums = column_sum(A);
+    for (i=0; i<A->cols; i++) {
+    printf("col %d\t%lf\n", i, col_sums[i]);
+    }
+    // should print 12, 15, 18, 21
+
+    puts("Diag Sum:");
+    double *diag_sums = diag_sum(D);
+    for (i=0; i<2; i++) {
+    printf("diag %d\t%lf\n", i, diag_sums[i]);
+    }
+    // should print 66, 66
+
+    Matrix *MS = make_matrix(3, 3);
+    double row_1[] = {2.0, 7.0, 6.0};
+    double row_2[] = {9.0, 5.0, 1.0};
+    double row_3[] = {4.0, 3.0, 8.0};
+    set_matrix_row(MS, row_1, 0);
+    set_matrix_row(MS, row_2, 1);
+    set_matrix_row(MS, row_3, 2);
+    puts("Magic Square:");
+
+    printf("is magic? %i\n", is_magic_square(MS));
+    //should print 1
+    printf("is magic? %i\n", is_magic_square(D));
+    //should print 0
+    printf("is magic? %i\n", is_magic_square(A));
+    //should print 0
 
     return 0;
 }
