@@ -85,9 +85,12 @@ void child_code (Shared *shared)
     if (shared->counter >= shared->end) {
       return;
     }
+    // MUTEX HERE
+    Semaphore *sem = make_semaphore(0);
+    sem_wait(sem);
     shared->array[shared->counter]++;
     shared->counter++;
-
+    sem_signal(sem);
     if (shared->counter % 10000 == 0) {
       printf ("%d\n", shared->counter);
     }

@@ -5,7 +5,7 @@
 #include <errno.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <wait.h>
+#include <sys/wait.h>
 
 // errno is an external global variable that contains
 // error information
@@ -37,6 +37,9 @@ int main (int argc, char *argv[])
   pid_t pid;
   double start, stop;
   int i, num_children;
+
+  int *int_pointer = malloc(sizeof(int));
+  *int_pointer = 42;
 
   // the first command-line argument is the name of the executable.
   // if there is a second, it is the number of children to create.
