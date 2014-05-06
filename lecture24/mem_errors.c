@@ -48,10 +48,10 @@ int main ()
     // free(&never_allocated);
 
     // but this one doesn't
-    free_anything(&never_allocated);
+    // free_anything(&never_allocated); -- ERROR
     
     free(free_twice);
-    free(free_twice);
+    // free(free_twice); -- ERROR
 
     return 0;
 }
